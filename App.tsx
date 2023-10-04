@@ -16,7 +16,6 @@ const App = () => {
           component={Splash}
           options={{headerShown: false}}
         />
-
         <Stack.Screen
           name="Home"
           component={Home}

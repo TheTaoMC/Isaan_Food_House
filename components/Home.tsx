@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {
   View,
   Text,
@@ -9,9 +10,19 @@ import {
   Image,
   Alert,
 } from 'react-native';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 const Home = ({navigation}: {navigation: any}) => {
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch('https://www.melivecode.com/api/attractions')
+      .then(res => res.json())
+      .then(result => {
+        setItems(result);
+      });
+  }, []);
+
   const onPress = (id: string, name: string) => {
     //Alert.alert(id + ' ' + name);
     navigation.push('Detail', {id: id, name: name});
@@ -22,58 +33,17 @@ const Home = ({navigation}: {navigation: any}) => {
         <View>
           <Text style={{fontSize: 25}}>โปรโมชั่นเดือนนี้</Text>
         </View>
-        <View style={{marginVertical: 10}}>
-          <Pressable onPress={() => onPress('1', 'น้ำพริกจรั๊วะโดง')}>
-            <Image
-              style={{height: 150, width: '100%'}}
-              source={require('../img/1.jpg')}
-            />
-            <Text style={styles.text3}>น้ำพริกจรั๊วะโดง</Text>
-            <Text style={styles.text}>
-              ราคา 100 บาท
-              <Text style={styles.text2}> จาก 120 บาท</Text>
-            </Text>
-          </Pressable>
-        </View>
-        <View style={{marginVertical: 10}}>
-          <Pressable onPress={() => onPress('2', 'ก้อยเนื้อ')}>
-            <Image
-              style={{height: 150, width: '100%'}}
-              source={require('../img/2.jpg')}
-            />
-            <Text style={styles.text3}>ก้อยเนื้อ</Text>
-            <Text style={styles.text}>
-              ราคา 150 บาท
-              <Text style={styles.text2}> จาก 180 บาท</Text>
-            </Text>
-          </Pressable>
-        </View>
-        <View style={{marginVertical: 10}}>
-          <Pressable onPress={() => onPress('3', 'ซุปหน่อไม้')}>
-            <Image
-              style={{height: 150, width: '100%'}}
-              source={require('../img/3.jpg')}
-            />
-            <Text style={styles.text3}>ซุปหน่อไม้</Text>
-            <Text style={styles.text}>
-              ราคา 180 บาท
-              <Text style={styles.text2}> จาก 200 บาท</Text>
-            </Text>
-          </Pressable>
-        </View>
-        <View style={{marginVertical: 10}}>
-          <Pressable onPress={() => onPress('4', 'ยำปลาร้ากุ้งสด')}>
-            <Image
-              style={{height: 150, width: '100%'}}
-              source={require('../img/4.jpg')}
-            />
-            <Text style={styles.text3}>ยำปลาร้ากุ้งสด</Text>
-            <Text style={styles.text}>
-              ราคา 200 บาท
-              <Text style={styles.text2}> จาก 250 บาท</Text>
-            </Text>
-          </Pressable>
-        </View>
+        {items.map(item => (
+          <View key={item.id} style={{marginVertical: 10}}>
+            <Pressable onPress={() => onPress(item.id)}>
+              <Image
+                style={{height: 333, width: '100%'}}
+                source={{uri: item.coverimage}}
+              />
+              <Text style={styles.text3}>{item.name}</Text>
+            </Pressable>
+          </View>
+        ))}
       </ScrollView>
     </SafeAreaView>
   );

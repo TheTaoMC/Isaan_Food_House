@@ -10,29 +10,52 @@ import {
   Image,
   Alert,
 } from 'react-native';
+import {Searchbar} from 'react-native-paper';
 import React, {useEffect, useState} from 'react';
 
 const Home = ({navigation}: {navigation: any}) => {
   const [items, setItems] = useState([]);
 
-  useEffect(() => {
+  const fetchAttractionsList = () => {
     fetch('https://www.melivecode.com/api/attractions')
       .then(res => res.json())
       .then(result => {
         setItems(result);
       });
-  }, []);
+  };
+  useEffect(fetchAttractionsList, []);
+
+  const fetchAttractionsSearch = () => {
+    fetch('https://www.melivecode.com/api/attractions?search=' + searchQuery)
+      .then(res => res.json())
+      .then(result => {
+        setItems(result);
+        setIsLoading(false);
+      });
+  };
+  useEffect(fetchAttractionsSearch, [searchQuery]);
 
   const onPress = (id: string, name: string) => {
     //Alert.alert(id + ' ' + name);
     navigation.push('Detail', {id: id, name: name});
   };
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  const onChangeSearch = query => setSearchQuery(query);
   return (
     <SafeAreaView>
       <ScrollView style={{padding: 10}}>
         <View>
           <Text style={{fontSize: 25}}>โปรโมชั่นเดือนนี้</Text>
         </View>
+
+        <Searchbar
+          placeholder="Search"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          onIconPress={() => setSearchQuery(searchQuery)}
+        />
+
         {items.map(item => (
           <View key={item.id} style={{marginVertical: 10}}>
             <Pressable onPress={() => onPress(item.id)}>

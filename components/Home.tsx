@@ -16,6 +16,9 @@ import React, {useEffect, useState} from 'react';
 const Home = ({navigation}: {navigation: any}) => {
   const [items, setItems] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const fetchAttractionsList = () => {
     fetch('https://www.melivecode.com/api/attractions')
       .then(res => res.json())
@@ -39,8 +42,8 @@ const Home = ({navigation}: {navigation: any}) => {
     //Alert.alert(id + ' ' + name);
     navigation.push('Detail', {id: id, name: name});
   };
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+
+  console.log(searchQuery);
   const onChangeSearch = query => setSearchQuery(query);
   return (
     <SafeAreaView>

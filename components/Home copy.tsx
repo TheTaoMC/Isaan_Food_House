@@ -49,7 +49,7 @@ const Home = ({navigation}: {navigation: any}) => {
 
   return (
     <SafeAreaView style={{height: '100%'}}>
-      <View style={{padding: 10}}>
+      <ScrollView style={{padding: 10, borderWidth: 5}}>
         <View>
           <Text style={{fontSize: 25}}>โปรโมชั่นเดือนนี้</Text>
         </View>
@@ -59,14 +59,8 @@ const Home = ({navigation}: {navigation: any}) => {
           onChangeText={onChangeSearch}
           value={searchQuery}
           onIconPress={() => setSearchQuery(searchQuery)}
-          onSubmitEditing={() => setSearchQuery(searchQuery)}
         />
-      </View>
-
-      <FlatList
-        style={{padding: 10}}
-        data={items}
-        renderItem={({item}) => (
+        {/*         {items.map(item => (
           <View key={item.id} style={{marginVertical: 10}}>
             <Pressable onPress={() => onPress(item.id)}>
               <Image
@@ -76,10 +70,26 @@ const Home = ({navigation}: {navigation: any}) => {
               <Text style={styles.text3}>{item.name}</Text>
             </Pressable>
           </View>
+        ))} */}
+      </ScrollView>
+
+      <FlatList
+        style={{padding: 10, borderWidth: 5, borderColor: 'red'}}
+        data={items}
+        renderItem={({item}) => (
+          <View key={item.id} style={{marginVertical: 10}}>
+            <Pressable onPress={() => onPress(item.id)}>
+              <Image
+                style={{height: 150, width: '100%'}}
+                source={{uri: item.coverimage}}
+              />
+              <Text style={styles.text3}>{item.name}</Text>
+            </Pressable>
+          </View>
         )}
         keyExtractor={item => item.id}
-        refreshing={false}
-        onRefresh={() => setSearchQuery('')}
+        /*  refreshing={false}
+        onRefresh={() => setSearchQuery(searchQuery)} */
       />
     </SafeAreaView>
   );

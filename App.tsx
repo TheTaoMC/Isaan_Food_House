@@ -6,6 +6,7 @@ import Splash from './components/Splash';
 import Home from './components/Home';
 import Detail from './components/Detail';
 import Login from './components/Login';
+import Profile from './components/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,11 @@ const App = () => {
         <Stack.Screen
           name="Login"
           component={Login}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
           options={{headerShown: false}}
         />
         <Stack.Screen

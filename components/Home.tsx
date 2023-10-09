@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import {Searchbar} from 'react-native-paper';
 import React, {useEffect, useState} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 
 const Home = ({navigation}: {navigation: any}) => {
   const [items, setItems] = useState([]);

@@ -19,7 +19,7 @@ const Login = ({navigation}: {navigation: any}) => {
       body: JSON.stringify({
         username: user,
         password: password,
-        expiresIn: 6000,
+        expiresIn: 60000,
       }), // body data type must match "Content-Type" header
     });
     const data = await response.json();
@@ -27,7 +27,7 @@ const Login = ({navigation}: {navigation: any}) => {
       await AsyncStorage.setItem('@accessToken', data.accessToken);
       const value = await AsyncStorage.getItem('@accessToken');
       console.log('เข้าสู่ระบบ', value);
-      navigation.push('Profile');
+      navigation.navigate('Profile');
     } else {
       Alert.alert(
         'แจ้งผู้ใช้งาน',
@@ -39,7 +39,7 @@ const Login = ({navigation}: {navigation: any}) => {
   };
 
   const onPress = async () => {
-    await navigation.push('Profile');
+    await navigation.navigate('Profile');
   };
   return (
     <View style={{flex: 1}}>

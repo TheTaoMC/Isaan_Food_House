@@ -22,18 +22,20 @@ const Home = ({navigation}: {navigation: any}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchAttractionsList = () => {
-    fetch('https://www.melivecode.com/api/attractions')
+    fetch('http://192.168.1.77:89/products')
       .then(res => res.json())
       .then(result => {
+        console.log(result);
         setItems(result);
       });
   };
   useEffect(fetchAttractionsList, []);
 
   const fetchAttractionsSearch = () => {
-    fetch('https://www.melivecode.com/api/attractions?search=' + searchQuery)
+    fetch('http://192.168.1.77:89/products/' + searchQuery)
       .then(res => res.json())
       .then(result => {
+        console.log(result);
         setItems(result);
         setIsLoading(false);
       });
@@ -42,7 +44,7 @@ const Home = ({navigation}: {navigation: any}) => {
 
   const onPress = (id: string, name: string) => {
     //Alert.alert(id + ' ' + name);
-    navigation.push('Detail', {id: id, name: name});
+    navigation.navigate('Detail', {id: id, name: name});
   };
 
   console.log(searchQuery);
@@ -72,9 +74,12 @@ const Home = ({navigation}: {navigation: any}) => {
             <Pressable onPress={() => onPress(item.id)}>
               <Image
                 style={{height: 333, width: '100%'}}
-                source={{uri: item.coverimage}}
+                source={{uri: item.image}}
               />
-              <Text style={styles.text3}>{item.name}</Text>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={styles.text3}>{item.name}</Text>
+                <Text style={styles.text}> {item.price} บาท.-</Text>
+              </View>
             </Pressable>
           </View>
         )}
@@ -96,9 +101,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   text: {
-    fontSize: 20,
+    fontSize: 30,
     color: 'red',
     fontWeight: 'bold',
+    flex: 1,
   },
   text2: {
     fontSize: 15,
@@ -107,6 +113,8 @@ const styles = StyleSheet.create({
   text3: {
     fontSize: 20,
     paddingTop: 5,
+    width: '100%',
+    flex: 1,
   },
   item: {
     backgroundColor: '#f9c2ff',

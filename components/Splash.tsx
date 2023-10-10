@@ -6,7 +6,7 @@ import React from 'react';
 
 const Splash = ({navigation}: {navigation: any}) => {
   const onPress = () => {
-    navigation.push('Login');
+    navigation.navigate('Login');
   };
 
   return (

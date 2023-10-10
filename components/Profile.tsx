@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, StatusBar} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TextInput, Button} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -20,7 +20,12 @@ const Profile = ({navigation}: {navigation: any}) => {
     });
     const data = await response.json();
 
-    await console.log(data);
+    await console.log(data.status);
+
+    if (data.status === 'forbidden') {
+      navigation.navigate('Login');
+    }
+
     await setUser(data.user);
 
     await setIsLoading(false);
@@ -31,29 +36,43 @@ const Profile = ({navigation}: {navigation: any}) => {
   }, [isLoading]);
 
   const handlehome = () => {
-    navigation.push('Home');
+    navigation.navigate('Home');
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {isLoading ? (
         <Text>Loading..........</Text>
       ) : (
-        <View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
           <Image
-            style={{height: 200, width: 200}}
+            style={{height: 200, width: 200, margin: 10}}
             source={
               user.avatar !== null && user.avatar !== undefined
                 ? {uri: user.avatar}
                 : require('../img/loading.gif')
             }
           />
-          <Text>
+          <Text style={{margin: 10}}>
             {user.fname} {user.lname}
           </Text>
-          <Text>{user.email}</Text>
-          <Button mode="contained" onPress={handlehome}>
+          <Text style={{margin: 10}}>{user.email}</Text>
+          <Button
+            style={{margin: 10, width: '50%'}}
+            mode="contained"
+            onPress={handlehome}>
             Go to Home
+          </Button>
+          <Button
+            style={{margin: 10, width: '50%'}}
+            mode="contained"
+            onPress={fetchUser}>
+            Reload
           </Button>
         </View>
       )}
@@ -63,4 +82,11 @@ const Profile = ({navigation}: {navigation: any}) => {
 
 export default Profile;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    height: '100%',
+  },
+  textinput: {width: '70%', marginVertical: 5},
+});

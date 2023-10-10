@@ -15,10 +15,11 @@ const Detail = ({navigation, route}) => {
   const [item, setItem] = useState([]);
 
   useEffect(() => {
-    fetch('https://www.melivecode.com/api/attractions/' + route.params.id)
+    //fetch('http://192.168.1.77:89/products/' + route.params.id)
+    fetch('http://192.168.1.77:89/products/')
       .then(res => res.json())
       .then(result => {
-        setItem(result.attraction);
+        setItem(result.find(product => product.id === route.params.id));
       });
   }, []);
 
@@ -29,18 +30,12 @@ const Detail = ({navigation, route}) => {
           <Image
             style={{height: 333, width: '100%'}}
             source={
-              item.coverimage !== null && item.coverimage !== undefined
-                ? {uri: item.coverimage}
+              item.image !== null && item.image !== undefined
+                ? {uri: item.image}
                 : require('../img/loading.gif')
             }
           />
           <Text style={styles.text3}>{item.name}</Text>
-          <Text style={styles.text3}>{item.detail}</Text>
-          <Text style={styles.text3}>{item.detail}</Text>
-          <Text style={styles.text3}>{item.detail}</Text>
-          <Text style={styles.text3}>{item.detail}</Text>
-          <Text style={styles.text3}>{item.detail}</Text>
-          <Text style={styles.text3}>{item.detail}</Text>
           <Text style={styles.text3}>{item.detail}</Text>
         </View>
       </ScrollView>

@@ -49,11 +49,11 @@ app.get('/products/:name', function (req, res, next) {
         'SELECT * FROM products where name like ?', '%' + [name] + '%',
         function (err, results, fields) {
             console.log(results); // results contains rows returned by server
-            console.log(fields); // fields contains extra meta data about results, if available
-            res.json(results[0])
+            //console.log(fields); // fields contains extra meta data about results, if available
+            res.json(results)
         }
     );
 })
-app.listen(process.env.PORT || 89, function () {
+app.listen(89, function () {
     console.log('CORS-enabled web server listening on port 89')
 })

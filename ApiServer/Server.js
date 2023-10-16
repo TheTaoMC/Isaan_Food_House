@@ -6,6 +6,9 @@ const app = express();
 //const mysql = require('mysql2');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcrypt');
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+
 
 
 // create the connection to database
@@ -23,6 +26,8 @@ console.log(process.env.DATABASE_URL);
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 
 app.get('/users', function (req, res, next) {
     conn.query(

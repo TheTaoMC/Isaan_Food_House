@@ -73,7 +73,7 @@ const Profile = ({navigation}: {navigation: any}) => {
   const addexptime = async () => {
     console.log('AddExpTime');
     const value = await AsyncStorage.getItem('@accessToken');
-    fetch('http://192.168.1.77:89/api/addtimetoken', {
+    const response = await fetch('http://192.168.1.77:89/api/addtimetoken', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization
@@ -82,23 +82,24 @@ const Profile = ({navigation}: {navigation: any}) => {
       body: JSON.stringify({
         exptime: '5s',
       }), // ถ้าคุณต้องการส่งข้อมูลเพิ่มเติม
-    })
-      .then(response => response.json())
-      .then(data => {
-        // ทำสิ่งที่คุณต้องการกับข้อมูลที่ได้รับ
-        //console.log('2.', data);
-        //console.log('3.', data.updatetoken);
+    });
 
-        if (data.message === 'jwt expired') {
-          navigation.navigate('Login');
-        } else {
+    if (response.ok) {
+      const data = await response.json();
+
+      if (data.message === 'jwt expired') {
+        navigation.navigate('Login');
+      } else {
+        // ตรวจสอบว่า token ใหม่แตกต่างจาก token เดิมหรือไม่
+        if (data.updatetoken !== value) {
           AsyncStorage.setItem('@accessToken', data.updatetoken);
         }
-      })
-      .catch(error => {
-        // จัดการข้อผิดพลาด
-        console.error(error);
-      });
+      }
+    } else {
+      // จัดการข้อผิดพลาด
+      console.error(response);
+    }
+
     setIsLoading(false);
   };
 

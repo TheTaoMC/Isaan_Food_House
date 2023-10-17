@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {TextInput, Button} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
+import Ip from './ip.json';
 
 const Profile = ({navigation}: {navigation: any}) => {
   const [user, setUser] = useState({});
@@ -35,7 +36,7 @@ const Profile = ({navigation}: {navigation: any}) => {
   const fetchDataWithToken = async () => {
     console.log('Profile');
     const value = await AsyncStorage.getItem('@accessToken');
-    fetch('http://192.168.1.77:89/api/authen', {
+    fetch('http://' + Ip.ip + ':89/api/authen', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization
@@ -73,7 +74,7 @@ const Profile = ({navigation}: {navigation: any}) => {
   const addexptime = async () => {
     console.log('AddExpTime');
     const value = await AsyncStorage.getItem('@accessToken');
-    const response = await fetch('http://192.168.1.77:89/api/addtimetoken', {
+    const response = await fetch('http://' + Ip.ip + ':89/api/addtimetoken', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization
@@ -114,14 +115,14 @@ const Profile = ({navigation}: {navigation: any}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Image
+          {/*           <Image
             style={{height: 200, width: 200, margin: 10}}
             source={
               user.avatar !== null && user.avatar !== undefined
                 ? {uri: user.avatar}
                 : require('../img/loading.gif')
             }
-          />
+          /> */}
 
           <Text style={{margin: 10}}>
             {user.fname} {user.lname}
@@ -132,12 +133,6 @@ const Profile = ({navigation}: {navigation: any}) => {
             mode="contained"
             onPress={handlehome}>
             Go to Home
-          </Button>
-          <Button
-            style={{margin: 10, width: '50%'}}
-            mode="contained"
-            onPress={handleMyProfile}>
-            Go to MyProfile
           </Button>
           <Button
             style={{margin: 10, width: '50%'}}

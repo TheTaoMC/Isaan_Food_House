@@ -10,13 +10,14 @@ import {
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, MD2Colors} from 'react-native-paper';
+import Ip from './ip.json';
 
 const Detail = ({navigation, route}) => {
   const [item, setItem] = useState([]);
 
   useEffect(() => {
     //fetch('http://192.168.1.77:89/products/' + route.params.id)
-    fetch('http://192.168.1.77:89/api/products/')
+    fetch('http://' + Ip.ip + ':89/api/products/')
       .then(res => res.json())
       .then(result => {
         setItem(result.find(product => product.id === route.params.id));

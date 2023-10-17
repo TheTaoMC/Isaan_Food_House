@@ -5,6 +5,7 @@ import {TextInput, Button} from 'react-native-paper';
 import {Text as Txtt} from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Profile from './Profile';
+import Ip from './ip.json';
 
 const Login = ({navigation}: {navigation: any}) => {
   const [username, setUsername] = useState('qwe');
@@ -41,7 +42,7 @@ const Login = ({navigation}: {navigation: any}) => {
   }; */
 
   const handleLogin = () => {
-    fetch('http://192.168.1.77:89/api/login', {
+    fetch('http://' + Ip.ip + ':89/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -49,7 +50,7 @@ const Login = ({navigation}: {navigation: any}) => {
       body: JSON.stringify({
         username: username,
         password: password,
-        exptime: '5s',
+        expiresIn: '5s',
       }),
     })
       .then(response => response.json())
@@ -98,9 +99,27 @@ const Login = ({navigation}: {navigation: any}) => {
           onChangeText={text => setPassword(text)}
           right={<TextInput.Icon icon="eye" />}
         />
-        <View style={{flex: 1, width: '30%', marginVertical: 5}}>
-          <Button mode="contained" onPress={handleLogin}>
-            ตกลง
+        <View
+          style={{
+            //flex: 2,
+            width: '70%',
+            marginVertical: 5,
+          }}>
+          <Button
+            style={{marginBottom: 5}}
+            mode="outlined"
+            textColor="#f5f6f5"
+            buttonColor="#4cb5f9"
+            onPress={handleLogin}>
+            <Txtt style={{fontWeight: 'bold', fontSize: 16, color: '#f5f6f5'}}>
+              ตกลง
+            </Txtt>
+          </Button>
+          <Button
+            mode="text"
+            textColor="#0095f6"
+            onPress={() => navigation.navigate('Register')}>
+            สมัครใช้งาน
           </Button>
         </View>
       </View>

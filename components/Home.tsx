@@ -14,6 +14,7 @@ import {
 import {Searchbar} from 'react-native-paper';
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
+import Ip from './ip.json';
 
 const Home = ({navigation}: {navigation: any}) => {
   const [items, setItems] = useState([]);
@@ -22,7 +23,7 @@ const Home = ({navigation}: {navigation: any}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchAttractionsList = () => {
-    fetch('http://192.168.1.77:89/api/products')
+    fetch('http://' + Ip.ip + ':89/api/products')
       .then(res => res.json())
       .then(result => {
         console.log(result);
@@ -32,7 +33,7 @@ const Home = ({navigation}: {navigation: any}) => {
   useEffect(fetchAttractionsList, []);
 
   const fetchAttractionsSearch = () => {
-    fetch('http://192.168.1.77:89/api/products/' + searchQuery)
+    fetch('http://' + Ip.ip + ':89/api/products/' + searchQuery)
       .then(res => res.json())
       .then(result => {
         console.log(result);

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View, StatusBar, Image, Alert} from 'react-native';
 import React, {useState} from 'react';
 import {TextInput, Button} from 'react-native-paper';
@@ -6,20 +7,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Profile from './Profile';
 
 const Login = ({navigation}: {navigation: any}) => {
-  const [user, setUser] = useState('karn.yong@melivecode.com');
-  const [password, setPassword] = useState('melivecode');
+  const [username, setUsername] = useState('qwe');
+  const [password, setPassword] = useState('1234');
 
-  const handleLogin = async () => {
-    const response = await fetch('https://www.melivecode.com/api/login', {
+  /*  const handleLogin = async () => {
+    //const response = await fetch('https://www.melivecode.com/api/login', {
+    const response = await fetch('192.168.1.77:89/api/login', {
       method: 'POST', // *GET, POST, PUT, DELETE, etc.
       headers: {
         'Content-Type': 'application/json',
         // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify({
-        username: user,
+        username: username,
         password: password,
-        expiresIn: 60000,
+        //expiresIn: 60000,
       }), // body data type must match "Content-Type" header
     });
     const data = await response.json();
@@ -36,6 +38,39 @@ const Login = ({navigation}: {navigation: any}) => {
       );
     }
     //console.log(data.accessToken);
+  }; */
+
+  const handleLogin = () => {
+    fetch('http://192.168.1.77:89/api/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+        exptime: '5s',
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 'ok') {
+          console.log(data);
+          // ทำสิ่งที่คุณต้องการเมื่อ login สำเร็จ
+          console.log('Login success!');
+          console.log('Token:', data.token);
+          AsyncStorage.setItem('@accessToken', data.token);
+          //const value = AsyncStorage.getItem('@accessToken');
+          onPress();
+        } else {
+          // ทำสิ่งที่คุณต้องการเมื่อ login ไม่สำเร็จ
+          console.log('Login failed:', data.message);
+        }
+      })
+      .catch(error => {
+        // จัดการ error ที่เกิดขึ้นในการเรียก API
+        console.error('API Error:', error);
+      });
   };
 
   const onPress = async () => {
@@ -52,8 +87,8 @@ const Login = ({navigation}: {navigation: any}) => {
         <TextInput
           style={styles.textinput}
           label="ชื่อผู้ใช้งาน"
-          value={user}
-          onChangeText={text => setUser(text)}
+          value={username}
+          onChangeText={text => setUsername(text)}
         />
         <TextInput
           style={styles.textinput}

@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {StyleSheet, Text, View, Image, StatusBar} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {TextInput, Button} from 'react-native-paper';
@@ -7,36 +8,98 @@ import {NavigationContainer} from '@react-navigation/native';
 const Profile = ({navigation}: {navigation: any}) => {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [timeout, setTimeout] = useState('');
 
-  const fetchUser = async () => {
+  /*   const fetchUser = async () => {
     const value = await AsyncStorage.getItem('@accessToken');
     await console.log('p1.' + value);
-    const response = await fetch('https://www.melivecode.com/api/auth/user', {
-      method: 'GET',
+    const response = await fetch('https://192.168.1.77:89/api/authen', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + value,
+        //Authorization: value,
       },
     });
     const data = await response.json();
-
     await console.log(data.status);
 
     if (data.status === 'forbidden') {
       navigation.navigate('Login');
     }
-
     await setUser(data.user);
-
     await setIsLoading(false);
+  }; */
+
+  // ฟังก์ชันสำหรับทำ API request หลังจาก login สำเร็จ
+  const fetchDataWithToken = async () => {
+    console.log('Profile');
+    const value = await AsyncStorage.getItem('@accessToken');
+    fetch('http://192.168.1.77:89/api/authen', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization
+        'Content-Type': 'application/json',
+      },
+      //body: JSON.stringify(data) // ถ้าคุณต้องการส่งข้อมูลเพิ่มเติม
+    })
+      .then(response => response.json())
+      .then(data => {
+        // ทำสิ่งที่คุณต้องการกับข้อมูลที่ได้รับ
+        console.log(data);
+
+        if (data.message === 'jwt expired') {
+          navigation.navigate('Login');
+        }
+      })
+      .catch(error => {
+        // จัดการข้อผิดพลาด
+        console.error(error);
+      });
+    setIsLoading(false);
   };
 
   useEffect(() => {
-    fetchUser();
+    fetchDataWithToken();
   }, [isLoading]);
 
   const handlehome = () => {
     navigation.navigate('Home');
+  };
+  const handleMyProfile = () => {
+    navigation.navigate('MyProfile');
+  };
+
+  const addexptime = async () => {
+    console.log('AddExpTime');
+    const value = await AsyncStorage.getItem('@accessToken');
+    fetch('http://192.168.1.77:89/api/addtimetoken', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        exptime: '5s',
+      }), // ถ้าคุณต้องการส่งข้อมูลเพิ่มเติม
+    })
+      .then(response => response.json())
+      .then(data => {
+        // ทำสิ่งที่คุณต้องการกับข้อมูลที่ได้รับ
+        //console.log('2.', data);
+        //console.log('3.', data.updatetoken);
+
+        if (data.message === 'jwt expired') {
+          navigation.navigate('Login');
+        } else {
+          AsyncStorage.setItem('@accessToken', data.updatetoken);
+        }
+      })
+      .catch(error => {
+        // จัดการข้อผิดพลาด
+        console.error(error);
+      });
+    setIsLoading(false);
   };
 
   return (
@@ -58,6 +121,7 @@ const Profile = ({navigation}: {navigation: any}) => {
                 : require('../img/loading.gif')
             }
           />
+
           <Text style={{margin: 10}}>
             {user.fname} {user.lname}
           </Text>
@@ -71,8 +135,20 @@ const Profile = ({navigation}: {navigation: any}) => {
           <Button
             style={{margin: 10, width: '50%'}}
             mode="contained"
-            onPress={fetchUser}>
+            onPress={handleMyProfile}>
+            Go to MyProfile
+          </Button>
+          <Button
+            style={{margin: 10, width: '50%'}}
+            mode="contained"
+            onPress={fetchDataWithToken}>
             Reload
+          </Button>
+          <Button
+            style={{margin: 10, width: '50%'}}
+            mode="contained"
+            onPress={addexptime}>
+            Add Exptime
           </Button>
         </View>
       )}

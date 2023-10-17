@@ -16,7 +16,7 @@ const Detail = ({navigation, route}) => {
 
   useEffect(() => {
     //fetch('http://192.168.1.77:89/products/' + route.params.id)
-    fetch('http://192.168.1.77:89/products/')
+    fetch('http://192.168.1.77:89/api/products/')
       .then(res => res.json())
       .then(result => {
         setItem(result.find(product => product.id === route.params.id));

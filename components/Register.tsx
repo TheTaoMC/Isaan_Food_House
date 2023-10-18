@@ -49,11 +49,12 @@ const Register = ({navigation}: {navigation: any}) => {
       });
       return;
     }
+
     console.log('111111');
-    setHelperText({
-      ...helperText,
-      ht1: 0,
-    });
+    setHelperText(prevHelperText => ({
+      ...prevHelperText, // คัดลอกค่าจาก helperText เดิม
+      ht1: 0, // ตั้งค่า ht1 เป็น 0
+    }));
     console.log('22222');
 
     if (lname === '') {

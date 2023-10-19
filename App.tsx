@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import MyProfile from './components/MyProfile';
 import Register from './components/Register';
+import Testcodedemo from './components/Testcodedemo';
 
 const Stack = createNativeStackNavigator();
 
@@ -50,6 +51,11 @@ const App = () => {
           name="Register"
           component={Register}
           options={{title: 'สมัครใช้งาน'}}
+        />
+        <Stack.Screen
+          name="Testcodedemo"
+          component={Testcodedemo}
+          options={{title: 'Testcodedemo'}}
         />
       </Stack.Navigator>
     </NavigationContainer>

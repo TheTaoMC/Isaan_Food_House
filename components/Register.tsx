@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useReducer} from 'react';
 import {
   TextInput,
   Button,
@@ -11,6 +11,18 @@ import {
 import {Text as Txtt} from 'react-native-paper';
 import Ip from './ip.json';
 
+const initialState = Array(7).fill(false);
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_EMPTY':
+      const updatedIsEmpty = [...state];
+      updatedIsEmpty[action.index] = action.value;
+      return updatedIsEmpty;
+    default:
+      return state;
+  }
+};
+
 const Register = ({navigation}: {navigation: any}) => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
@@ -18,127 +30,88 @@ const Register = ({navigation}: {navigation: any}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordc, setPasswordc] = useState('');
-  console.log('password: ' + password);
-  console.log('passwordc: ' + passwordc);
+  //console.log('password: ' + password);
+  //console.log('passwordc: ' + passwordc);
 
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
-  console.log(visible);
+  //const [isEmpty, setIsEmpty] = useState(Array(6).fill(false));
 
-  const [helperText, setHelperText] = useState({
-    ht1: 0,
-    ht2: 0,
-    ht3: 0,
-    ht4: 0,
-    ht5: 0,
-    ht6: 0,
-    ht7: 0,
-  });
+  const [isEmpty, dispatch] = useReducer(reducer, initialState);
 
-  //const showHelperText = () => setHelperText(true);
-  //const hideHelperText = () => setHelperText(false);
-  console.log('helperText: ', helperText);
+  /*   const validateField = (inputValue, index, text) => {
+    if (inputValue.trim() === '') {
+      console.log(text);
+      const updatedIsEmpty = [...isEmpty];
+      updatedIsEmpty[index] = true;
+      setIsEmpty(updatedIsEmpty);
+      return true;
+    } else {
+      const updatedIsEmpty = [...isEmpty];
+      updatedIsEmpty[index] = false;
+      setIsEmpty(updatedIsEmpty);
+      return false;
+    }
+  }; */
+
+  //console.log(isEmpty);
+
+  /*   const validateField = (inputValue, index, text) => {
+    const isEmptyValue = inputValue.trim() === '';
+    console.log('1', isEmptyValue);
+    const isInvalidValue = inputValue !== text;
+    console.log('2', isInvalidValue);
+
+    if (isEmptyValue) {
+      dispatch({type: 'SET_EMPTY', index, value: isEmptyValue});
+      return isEmptyValue;
+    }
+    if (!isEmptyValue) {
+      dispatch({type: 'SET_EMPTY', index, value: isEmptyValue});
+      return isEmptyValue;
+    }
+    if (isInvalidValue) {
+      dispatch({type: 'SET_EMPTY', index, value: isInvalidValue});
+      return isInvalidValue;
+    }
+  }; */
+  const [isEmptyq, setIsEmptyq] = useState(Array(7).fill(false));
+  console.log(isEmptyq);
+  const validateField = (inputValue, index, text) => {
+    const isEmptyValue = inputValue.trim() === '';
+    const isInvalidValue = inputValue !== text;
+
+    const updatedIsEmpty = [...isEmpty];
+    updatedIsEmpty[index] = isEmptyValue || isInvalidValue;
+    setIsEmptyq(updatedIsEmpty);
+
+    return isEmptyValue || isInvalidValue;
+  };
 
   const handleRegister = async () => {
-    if (fname === '') {
-      console.log('กรุณากรอกชื่อ');
-      setHelperText({
-        ...helperText,
-        ht1: 1,
-      });
+    /*  if (
+      validateField(fname, 0, 'กรุณากรอกชื่อ') ||
+      validateField(lname, 1, 'กรุณากรอกนามสกุล') ||
+      validateField(email, 2, 'กรุณากรอกอีเมล') ||
+      validateField(username, 3, 'กรุณากรอกชื่อผู้ใช้งาน') ||
+      validateField(password, 4, 'กรุณากรอกรหัสผ่าน') ||
+      validateField(passwordc, 5, 'กรุณากรอกรหัสผ่านยืนยัน')
+    ) {
       return;
-    }
-
-    console.log('111111');
-    setHelperText(prevHelperText => ({
-      ...prevHelperText, // คัดลอกค่าจาก helperText เดิม
-      ht1: 0, // ตั้งค่า ht1 เป็น 0
-    }));
-    console.log('22222');
-
-    if (lname === '') {
-      console.log('กรุณากรอกนามสกุล');
-      setHelperText({
-        ...helperText,
-        ht2: 1,
-      });
-      return;
-    } else {
-      setHelperText({
-        ...helperText,
-        ht2: 0,
-      });
-    }
-
-    if (email === '') {
-      console.log('กรุณากรอกอีเมล');
-      setHelperText({
-        ...helperText,
-        ht3: 1,
-      });
-      return;
-    } else {
-      setHelperText({
-        ...helperText,
-        ht3: 0,
-      });
-    }
-
-    if (username === '') {
-      console.log('กรุณากรอกชื่อผู้ใช้งาน');
-      setHelperText({
-        ...helperText,
-        ht4: 1,
-      });
-      return;
-    } else {
-      setHelperText({
-        ...helperText,
-        ht4: 0,
-      });
-    }
-
-    if (password === '') {
-      console.log('กรุณากรอกรหัสผ่าน');
-      setHelperText({
-        ...helperText,
-        ht5: 1,
-      });
-      return;
-    } else {
-      setHelperText({
-        ...helperText,
-        ht5: 0,
-      });
-    }
-
-    if (passwordc === '') {
-      console.log('กรุณากรอกรหัสผ่านยืนยัน');
-      setHelperText({
-        ...helperText,
-        ht6: 1,
-      });
-      return;
-    } else {
-      setHelperText({
-        ...helperText,
-        ht6: 0,
-      });
-    }
+    } */
+    if (validateField(fname, 0, 'กรุณากรอกชื่อ')) return;
+    if (validateField(lname, 1, 'กรุณากรอกนามสกุล')) return;
+    if (validateField(email, 2, 'กรุณากรอกอีเมล')) return;
+    if (validateField(username, 3, 'กรุณากรอกชื่อผู้ใช้งาน')) return;
+    if (validateField(password, 4, 'กรุณากรอกรหัสผ่าน')) return;
+    if (validateField(passwordc, 5, 'กรุณากรอกรหัสผ่านยืนยัน')) return;
+    if (validateField(password, 6, passwordc)) return;
 
     if (password !== passwordc) {
-      console.log('รหัสผ่านไม่ตรงกับยืนยัน');
-      setHelperText({
-        ...helperText,
-        ht7: 1,
-      });
+      //initialState[6] = true;
+      console.log('รหัสผ่านไม่ตรงกับยืนยัน00');
       return;
-    } else {
-      setHelperText({
-        ...helperText,
-        ht7: 0,
-      });
     }
 
     try {
@@ -188,38 +161,21 @@ const Register = ({navigation}: {navigation: any}) => {
             value={fname}
             onChangeText={text => setFname(text)}
           />
-
-          {helperText.ht1 === 1 ? (
-            <HelperText type="error">กรุณากรอกชื่อ</HelperText>
-          ) : (
-            <></>
-          )}
-
+          {isEmpty[0] && <HelperText type="error">กรุณากรอกชื่อ</HelperText>}
           <TextInput
             label="นามสกุล"
             mode="outlined"
             value={lname}
             onChangeText={text => setLname(text)}
           />
-
-          {helperText.ht2 === 1 ? (
-            <HelperText type="error">กรุณากรอกชื่อ</HelperText>
-          ) : (
-            <></>
-          )}
-
+          {isEmpty[1] && <HelperText type="error">กรุณากรอกชื่อ</HelperText>}
           <TextInput
             label="Email"
             mode="outlined"
             value={email}
             onChangeText={text => setEmail(text)}
           />
-
-          {helperText.ht3 === 1 ? (
-            <HelperText type="error">กรุณากรอกชื่อ</HelperText>
-          ) : (
-            <></>
-          )}
+          {isEmpty[2] && <HelperText type="error">กรุณากรอกอีเมล</HelperText>}
 
           <TextInput
             label="ชื่อผู้ใช้งาน"
@@ -227,12 +183,9 @@ const Register = ({navigation}: {navigation: any}) => {
             value={username}
             onChangeText={text => setUsername(text)}
           />
-          {helperText.ht4 === 1 ? (
-            <HelperText type="error">กรุณากรอกชื่อ</HelperText>
-          ) : (
-            <></>
+          {isEmpty[3] && (
+            <HelperText type="error">กรุณากรอกชื่อผู้ใช้งาน</HelperText>
           )}
-
           <TextInput
             label="รหัสผ่าน"
             mode="outlined"
@@ -240,12 +193,9 @@ const Register = ({navigation}: {navigation: any}) => {
             secureTextEntry
             onChangeText={text => setPassword(text)}
           />
-          {helperText.ht5 === 1 ? (
-            <HelperText type="error">กรุณากรอกชื่อ</HelperText>
-          ) : (
-            <></>
+          {isEmpty[4] && (
+            <HelperText type="error">กรุณากรอกรหัสผ่าน</HelperText>
           )}
-
           <TextInput
             label="ยืนยันรหัสผ่าน"
             mode="outlined"
@@ -253,12 +203,12 @@ const Register = ({navigation}: {navigation: any}) => {
             secureTextEntry
             onChangeText={text => setPasswordc(text)}
           />
-          {helperText.ht6 === 1 ? (
-            <HelperText type="error">กรุณากรอกชื่อ</HelperText>
-          ) : (
-            <></>
+          {isEmpty[5] && (
+            <HelperText type="error">กรุณากรอกรหัสผ่านยืนยัน</HelperText>
           )}
-
+          {isEmpty[6] && (
+            <HelperText type="error">รหัสผ่านไม่ตรงกับยืนยัน</HelperText>
+          )}
           <Button
             style={{marginBottom: 5, margin: 5}}
             mode="outlined"

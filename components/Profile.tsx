@@ -146,6 +146,12 @@ const Profile = ({navigation}: {navigation: any}) => {
             onPress={addexptime}>
             Add Exptime
           </Button>
+          <Button
+            style={{margin: 10, width: '50%'}}
+            mode="contained"
+            onPress={() => navigation.navigate('Testcodedemo')}>
+            testCode
+          </Button>
         </View>
       )}
     </View>

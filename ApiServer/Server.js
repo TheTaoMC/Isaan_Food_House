@@ -78,8 +78,15 @@ app.post('/api/register', jsonParser, async function (req, res, next) {
 
         conn.query(query, values, (err, results) => {
             if (err) {
-                console.error(err);
-                res.json({ status: 'error', message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล' });
+                if (err.code === 'ER_DUP_ENTRY') {
+                    // ข้อมูลที่มี key ซ้ำพบซ้ำในฐานข้อมูล
+                    const duplicateValue = err.message.match(/'([^']+)'/)[1];
+                    res.json({ status: 'error', keydup: duplicateValue, message: 'ข้อมูลที่คุณพยายามบันทึกมีอยู่ในระบบแล้ว', errorCode: err.code });
+                } else {
+                    // ประเภทของข้อผิดพลาดอื่น ๆ ที่ไม่ใช่ Duplicate entry
+                    console.error(err);
+                    res.json({ status: 'error', message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล', errorCode: err.code });
+                }
                 return;
             }
 

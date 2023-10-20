@@ -11,6 +11,18 @@ import {
 import {Text as Txtt} from 'react-native-paper';
 import Ip from './ip.json';
 
+const initialState = Array(7).fill(false);
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_EMPTY':
+      const updatedIsEmpty = [...state];
+      updatedIsEmpty[action.index] = action.value;
+      return updatedIsEmpty;
+    default:
+      return state;
+  }
+};
+
 const Register = ({navigation}: {navigation: any}) => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
@@ -24,45 +36,86 @@ const Register = ({navigation}: {navigation: any}) => {
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
-  const [isEmpty, setIsEmpty] = useState(Array(6).fill(false));
+  //const [isEmpty, setIsEmpty] = useState(Array(6).fill(false));
 
-  const fieldValues = [fname, lname, email, username, password, passwordc];
+  const [isEmpty, dispatch] = useReducer(reducer, initialState);
+
+  /*   const validateField = (inputValue, index, text) => {
+    if (inputValue.trim() === '') {
+      console.log(text);
+      const updatedIsEmpty = [...isEmpty];
+      updatedIsEmpty[index] = true;
+      setIsEmpty(updatedIsEmpty);
+      return true;
+    } else {
+      const updatedIsEmpty = [...isEmpty];
+      updatedIsEmpty[index] = false;
+      setIsEmpty(updatedIsEmpty);
+      return false;
+    }
+  }; */
+
+  //console.log(isEmpty);
+
+  /*   const validateField = (inputValue, index, text) => {
+    const isEmptyValue = inputValue.trim() === '';
+    console.log('1', isEmptyValue);
+    const isInvalidValue = inputValue !== text;
+    console.log('2', isInvalidValue);
+
+    if (isEmptyValue) {
+      dispatch({type: 'SET_EMPTY', index, value: isEmptyValue});
+      return isEmptyValue;
+    }
+    if (!isEmptyValue) {
+      dispatch({type: 'SET_EMPTY', index, value: isEmptyValue});
+      return isEmptyValue;
+    }
+    if (isInvalidValue) {
+      dispatch({type: 'SET_EMPTY', index, value: isInvalidValue});
+      return isInvalidValue;
+    }
+  }; */
+  const [isEmptyq, setIsEmptyq] = useState(Array(7).fill(false));
+  console.log(isEmptyq);
+  const validateField = (inputValue, index, text) => {
+    const isEmptyValue = inputValue.trim() === '';
+    const isInvalidValue = inputValue !== text;
+
+    const updatedIsEmpty = [...isEmpty];
+    updatedIsEmpty[index] = isEmptyValue || isInvalidValue;
+    setIsEmptyq(updatedIsEmpty);
+
+    return isEmptyValue || isInvalidValue;
+  };
+
   const handleRegister = async () => {
-    console.log(isEmpty);
-
-    let hasEmptyField = false;
-    fieldValues.forEach((value, index) => {
-      if (value === '') {
-        hasEmptyField = true;
-        setIsEmpty(prevState => {
-          const newState = [...prevState];
-          newState[index] = true; // ตั้งค่า isEmpty[index] เป็น true เมื่อมีช่องว่าง
-          return newState;
-        });
-      } else {
-        setIsEmpty(prevState => {
-          const newState = [...prevState];
-          newState[index] = false; // ตั้งค่า isEmpty[index] เป็น false เมื่อไม่มีช่องว่าง
-          return newState;
-        });
-      }
+    /*  if (
+      validateField(fname, 0, 'กรุณากรอกชื่อ') ||
+      validateField(lname, 1, 'กรุณากรอกนามสกุล') ||
+      validateField(email, 2, 'กรุณากรอกอีเมล') ||
+      validateField(username, 3, 'กรุณากรอกชื่อผู้ใช้งาน') ||
+      validateField(password, 4, 'กรุณากรอกรหัสผ่าน') ||
+      validateField(passwordc, 5, 'กรุณากรอกรหัสผ่านยืนยัน')
+    ) {
       return;
-    });
+    } */
+    /*     if (validateField(fname, 0, 'กรุณากรอกชื่อ')) return;
+    if (validateField(lname, 1, 'กรุณากรอกนามสกุล')) return;
+    if (validateField(email, 2, 'กรุณากรอกอีเมล')) return;
+    if (validateField(username, 3, 'กรุณากรอกชื่อผู้ใช้งาน')) return;
+    if (validateField(password, 4, 'กรุณากรอกรหัสผ่าน')) return;
+    if (validateField(passwordc, 5, 'กรุณากรอกรหัสผ่านยืนยัน')) return; */
+
+    if (fname === '') {
+      console.log('กรุณากรอกชื่อ');
+      return;
+    }
 
     if (password !== passwordc) {
-      setIsEmpty(prevState => {
-        const newState = [...prevState];
-        newState[6] = true; // ตั้งค่า isEmpty[6] เป็น true เมื่อรหัสผ่านไม่ตรงกัน
-        return newState;
-      });
-      console.log('รหัสผ่านไม่ตรงกับยืนยัน');
-      return;
-    } else {
-      setIsEmpty(prevState => {
-        const newState = [...prevState];
-        newState[6] = false; // ตั้งค่า isEmpty[6] เป็น true เมื่อรหัสผ่านไม่ตรงกัน
-        return newState;
-      });
+      //initialState[6] = true;
+      console.log('รหัสผ่านไม่ตรงกับยืนยัน00');
+      if (validateField(password, 6, passwordc)) return;
     }
 
     try {
@@ -80,7 +133,6 @@ const Register = ({navigation}: {navigation: any}) => {
         }),
       });
 
-
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
@@ -90,6 +142,14 @@ const Register = ({navigation}: {navigation: any}) => {
     } catch (error) {
       console.error('Error occurred:', error);
     }
+  };
+
+  const [text, setText] = useState('');
+
+  const onChangeText = text => setText(text);
+
+  const hasErrors = () => {
+    return !fname || fname === '';
   };
   return (
     <PaperProvider>
@@ -106,7 +166,6 @@ const Register = ({navigation}: {navigation: any}) => {
             onChangeText={text => setFname(text)}
           />
           {isEmpty[0] && <HelperText type="error">กรุณากรอกชื่อ</HelperText>}
-
           <TextInput
             label="นามสกุล"
             mode="outlined"
@@ -141,7 +200,6 @@ const Register = ({navigation}: {navigation: any}) => {
           {isEmpty[4] && (
             <HelperText type="error">กรุณากรอกรหัสผ่าน</HelperText>
           )}
-
           <TextInput
             label="ยืนยันรหัสผ่าน"
             mode="outlined"
@@ -150,14 +208,11 @@ const Register = ({navigation}: {navigation: any}) => {
             onChangeText={text => setPasswordc(text)}
           />
           {isEmpty[5] && (
-            <HelperText type="error">กรุณากรอกยืนยันรหัสผ่าน</HelperText>
+            <HelperText type="error">กรุณากรอกรหัสผ่านยืนยัน</HelperText>
           )}
           {isEmpty[6] && (
-            <HelperText type="error">
-              รหัสผ่านไม่ตรงกับยืนยันรหัสผ่าน
-            </HelperText>
+            <HelperText type="error">รหัสผ่านไม่ตรงกับยืนยัน</HelperText>
           )}
-
           <Button
             style={{marginBottom: 5, margin: 5}}
             mode="outlined"

@@ -8,7 +8,7 @@ import Profile from './Profile';
 import Ip from './ip.json';
 
 const Login = ({navigation}: {navigation: any}) => {
-  const [username, setUsername] = useState('qwe');
+  const [username, setUsername] = useState('thetaomc');
   const [password, setPassword] = useState('1234');
 
   /*  const handleLogin = async () => {
@@ -50,7 +50,7 @@ const Login = ({navigation}: {navigation: any}) => {
       body: JSON.stringify({
         username: username,
         password: password,
-        expiresIn: '5s',
+        expiresIn: '10s',
       }),
     })
       .then(response => response.json())

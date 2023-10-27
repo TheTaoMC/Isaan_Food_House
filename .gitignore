@@ -66,4 +66,4 @@ yarn-error.log
 /coverage
 
 #DB
-.env
+/ApiServer/.env

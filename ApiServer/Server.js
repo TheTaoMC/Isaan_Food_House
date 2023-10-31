@@ -72,6 +72,31 @@ app.post('/api/register', jsonParser, async function (req, res, next) {
         // เข้ารหัสรหัสผ่าน
         const hash = await bcrypt.hash(req.body.password, saltRounds);
 
+        // ตรวจสอบ email ห้ามซ้ำ
+        const emailExistsPromise = conn.promise().query(
+            `SELECT *
+        FROM users
+        WHERE email = '${req.body.email}'`,
+            [],
+            async (err, results) => {
+                if (err) {
+                    res.json({ status: 'error', message: 'เกิดข้อผิดพลาดในการตรวจสอบข้อมูล' });
+                    return;
+                }
+
+                return results.length > 0;
+            }
+        );
+
+        // ตรวจสอบว่าอีเมลซ้ำหรือไม่
+        const emailExists = await emailExistsPromise;
+
+        if (emailExists) {
+            res.json({ status: 'error', message: 'อีเมลนี้ถูกใช้แล้ว' });
+            return;
+        }
+
+
         // บันทึกข้อมูลลงฐานข้อมูล
         const query = 'INSERT INTO users (fname, lname, email, username, password) VALUES (?, ?, ?, ?, ?)';
         const values = [req.body.fname, req.body.lname, req.body.email, req.body.username, hash];

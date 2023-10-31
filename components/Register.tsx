@@ -80,17 +80,17 @@ const Register = ({navigation}: {navigation: any}) => {
         }),
       });
 
-
       if (!res.ok) {
         throw new Error('Network response was not ok');
       }
 
       const datas = await res.json();
-      console.log('Response Data:', datas);
+      console.log('Response Data:', datas);0
     } catch (error) {
       console.error('Error occurred:', error);
     }
   };
+
   return (
     <PaperProvider>
       <View style={{padding: 20, flex: 1, alignItems: 'center'}}>
@@ -152,7 +152,8 @@ const Register = ({navigation}: {navigation: any}) => {
           {isEmpty[5] && (
             <HelperText type="error">กรุณากรอกยืนยันรหัสผ่าน</HelperText>
           )}
-          {isEmpty[6] && (
+
+          {!isEmpty[4] && !isEmpty[5] && isEmpty[6] && (
             <HelperText type="error">
               รหัสผ่านไม่ตรงกับยืนยันรหัสผ่าน
             </HelperText>

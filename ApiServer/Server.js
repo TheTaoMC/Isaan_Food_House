@@ -57,6 +57,17 @@ app.get('/api/products/:name', function (req, res, next) {
     );
 });
 
+
+const checkEmailExists = async (email) => {
+    const [rows] = await conn.promise().query('SELECT * FROM users WHERE email = ?', [email]);
+    return rows.length > 0;
+};
+
+const checkUsernameExists = async (username) => {
+    const [rows] = await conn.promise().query('SELECT * FROM users WHERE username = ?', [username]);
+    return rows.length > 0;
+};
+
 // POST /register
 app.post('/api/register', jsonParser, async function (req, res, next) {
     console.log('register');
@@ -68,34 +79,28 @@ app.post('/api/register', jsonParser, async function (req, res, next) {
         return;
     }
 
+    if (req.body.email.indexOf('@') === -1) {
+        res.json({ status: 'emailerror[@]', message: 'รูปแบบอีเมลไม่ถูกต้อง' });
+        return;
+    }
+
     try {
         // เข้ารหัสรหัสผ่าน
         const hash = await bcrypt.hash(req.body.password, saltRounds);
 
         // ตรวจสอบ email ห้ามซ้ำ
-        const emailExistsPromise = conn.promise().query(
-            `SELECT *
-        FROM users
-        WHERE email = '${req.body.email}'`,
-            [],
-            async (err, results) => {
-                if (err) {
-                    res.json({ status: 'error', message: 'เกิดข้อผิดพลาดในการตรวจสอบข้อมูล' });
-                    return;
-                }
-
-                return results.length > 0;
-            }
-        );
-
-        // ตรวจสอบว่าอีเมลซ้ำหรือไม่
-        const emailExists = await emailExistsPromise;
-
+        const emailExists = await checkEmailExists(req.body.email);
         if (emailExists) {
-            res.json({ status: 'error', message: 'อีเมลนี้ถูกใช้แล้ว' });
+            res.json({ status: 'emailerror', message: 'อีเมลนี้ถูกใช้แล้ว' });
             return;
         }
 
+        // ตรวจสอบ username ห้ามซ้ำ
+        const usernameExists = await checkUsernameExists(req.body.username);
+        if (usernameExists) {
+            res.json({ status: 'usernameerror', message: 'ชื่อผู้ใช้งานนี้ถูกใช้แล้ว' });
+            return;
+        }
 
         // บันทึกข้อมูลลงฐานข้อมูล
         const query = 'INSERT INTO users (fname, lname, email, username, password) VALUES (?, ?, ?, ?, ?)';
@@ -130,7 +135,6 @@ app.post('/api/register', jsonParser, async function (req, res, next) {
         res.json({ status: 'error', message: 'เกิดข้อผิดพลาดในการบันทึกข้อมูล' });
     }
 });
-
 
 
 // POST /login

@@ -12,24 +12,26 @@ import {Text as Txtt} from 'react-native-paper';
 import Ip from './ip.json';
 
 const Register = ({navigation}: {navigation: any}) => {
-  const [fname, setFname] = useState('');
-  const [lname, setLname] = useState('');
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordc, setPasswordc] = useState('');
+  const [fname, setFname] = useState('q');
+  const [lname, setLname] = useState('q');
+  const [email, setEmail] = useState('e');
+  const [username, setUsername] = useState('u');
+  const [password, setPassword] = useState('q');
+  const [passwordc, setPasswordc] = useState('q');
   //console.log('password: ' + password);
   //console.log('passwordc: ' + passwordc);
-
+  const [datasres, setDatasres] = useState([]);
+  const [isloading, setIsloading] = useState(false);
   const [visible, setVisible] = useState(false);
   const showDialog = () => setVisible(true);
   const hideDialog = () => setVisible(false);
-  const [isEmpty, setIsEmpty] = useState(Array(6).fill(false));
+  const [isEmpty, setIsEmpty] = useState(Array(7).fill(false));
 
   const fieldValues = [fname, lname, email, username, password, passwordc];
   const handleRegister = async () => {
     console.log(isEmpty);
 
+    //งง นะตรงนี้ เช็คช่อง
     let hasEmptyField = false;
     fieldValues.forEach((value, index) => {
       if (value === '') {
@@ -66,6 +68,7 @@ const Register = ({navigation}: {navigation: any}) => {
     }
 
     try {
+      setIsloading(true);
       const res = await fetch('http://' + Ip.ip + ':89/api/register', {
         method: 'POST',
         headers: {
@@ -85,12 +88,38 @@ const Register = ({navigation}: {navigation: any}) => {
       }
 
       const datas = await res.json();
-      console.log('Response Data:', datas);0
+      console.log('Response Data:', datas);
+      setDatasres(datas);
+
+      if (datas.status === 'emailerror[@]') {
+        setIsEmpty(prevState => {
+          const newState = [...prevState];
+          newState[7] = true; // ตั้งค่า isEmpty[6] เป็น true เมื่อรหัสผ่านไม่ตรงกัน
+          return newState;
+        });
+        console.log(datas.status);
+        setIsloading(false);
+        return;
+      } else {
+        setIsEmpty(prevState => {
+          const newState = [...prevState];
+          newState[7] = false; // ตั้งค่า isEmpty[6] เป็น true เมื่อรหัสผ่านไม่ตรงกัน
+          return newState;
+        });
+      }
+
+      if (datas.status === 'ok') {
+        showDialog();
+      }
+      if (visible && datas.status !== 'ok') {
+        navigation.navigate('Login');
+      }
     } catch (error) {
       console.error('Error occurred:', error);
     }
+    setIsloading(false);
   };
-
+  console.log('1.', datasres);
   return (
     <PaperProvider>
       <View style={{padding: 20, flex: 1, alignItems: 'center'}}>
@@ -113,7 +142,7 @@ const Register = ({navigation}: {navigation: any}) => {
             value={lname}
             onChangeText={text => setLname(text)}
           />
-          {isEmpty[1] && <HelperText type="error">กรุณากรอกชื่อ</HelperText>}
+          {isEmpty[1] && <HelperText type="error">กรุณากรอกนามสกุล</HelperText>}
           <TextInput
             label="Email"
             mode="outlined"
@@ -121,6 +150,9 @@ const Register = ({navigation}: {navigation: any}) => {
             onChangeText={text => setEmail(text)}
           />
           {isEmpty[2] && <HelperText type="error">กรุณากรอกอีเมล</HelperText>}
+          {datasres.status === 'emailerror[@]' && (
+            <HelperText type="error">{datasres.message}</HelperText>
+          )}
 
           <TextInput
             label="ชื่อผู้ใช้งาน"
@@ -131,6 +163,11 @@ const Register = ({navigation}: {navigation: any}) => {
           {isEmpty[3] && (
             <HelperText type="error">กรุณากรอกชื่อผู้ใช้งาน</HelperText>
           )}
+
+          {datasres.status === 'usernameerror' && (
+            <HelperText type="error">{datasres.message}</HelperText>
+          )}
+
           <TextInput
             label="รหัสผ่าน"
             mode="outlined"
@@ -169,7 +206,17 @@ const Register = ({navigation}: {navigation: any}) => {
               สมัครใช้งาน
             </Txtt>
           </Button>
+
           <Portal>
+     
+              <Dialog visible={isloading}>
+                <Dialog.Title>กรุณารอสักครู่</Dialog.Title>
+                <Dialog.Content>
+                  <Txtt variant="bodyMedium">ระบบกำลังดำเนินการ</Txtt>
+                </Dialog.Content>
+              </Dialog>
+
+
             <Dialog visible={visible} onDismiss={handleRegister}>
               <Dialog.Title>สมัครใช้งานสำเร็จ</Dialog.Title>
               <Dialog.Content>

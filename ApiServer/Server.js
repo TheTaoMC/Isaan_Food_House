@@ -280,6 +280,6 @@ app.delete('/api/deleteUser/:id', function (req, res, next) {
   );
 });
 
-app.listen(89 || 3000, function () {
-  console.log('CORS-enabled web server listening on port 89');
+app.listen(process.env.PORT || 89, function () {
+  console.log('CORS-enabled web server listening on port');
 });

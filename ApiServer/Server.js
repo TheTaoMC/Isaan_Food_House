@@ -26,6 +26,10 @@ const conn = mysql.createConnection(process.env.DATABASE_URL);
 
 app.use(cors());
 
+app.get('/', function (req, res, next) {
+  res.send('Helloooooooooooooooooooo');
+});
+
 app.get('/api/users', function (req, res, next) {
   conn.query('SELECT * FROM users', function (err, results, fields) {
     console.log(results); // results contains rows returned by server

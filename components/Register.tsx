@@ -9,6 +9,7 @@ import {
   HelperText,
 } from 'react-native-paper';
 import {Text as Txtt} from 'react-native-paper';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Ip from './ip.json';
 
 const Register = ({navigation}: {navigation: any}) => {
@@ -69,7 +70,7 @@ const Register = ({navigation}: {navigation: any}) => {
 
     try {
       setIsloading(true);
-      const res = await fetch('http://' + Ip.ip + '/api/register', {
+      const res = await fetch(Ip.ip + '/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,6 +123,7 @@ const Register = ({navigation}: {navigation: any}) => {
   console.log('1.', datasres);
   return (
     <PaperProvider>
+      <KeyboardAwareScrollView>
       <View style={{padding: 20, flex: 1, alignItems: 'center'}}>
         <Text style={{fontWeight: 'bold', fontSize: 16, color: 'black'}}>
           กรอกข้อมูลเพื่อสมัครใช้งาน
@@ -151,6 +153,9 @@ const Register = ({navigation}: {navigation: any}) => {
           />
           {isEmpty[2] && <HelperText type="error">กรุณากรอกอีเมล</HelperText>}
           {datasres.status === 'emailerror[@]' && (
+            <HelperText type="error">{datasres.message}</HelperText>
+          )}
+          {datasres.status === 'emailerror' && (
             <HelperText type="error">{datasres.message}</HelperText>
           )}
 
@@ -208,14 +213,12 @@ const Register = ({navigation}: {navigation: any}) => {
           </Button>
 
           <Portal>
-     
-              <Dialog visible={isloading}>
-                <Dialog.Title>กรุณารอสักครู่</Dialog.Title>
-                <Dialog.Content>
-                  <Txtt variant="bodyMedium">ระบบกำลังดำเนินการ</Txtt>
-                </Dialog.Content>
-              </Dialog>
-
+            <Dialog visible={isloading}>
+              <Dialog.Title>กรุณารอสักครู่</Dialog.Title>
+              <Dialog.Content>
+                <Txtt variant="bodyMedium">ระบบกำลังดำเนินการ</Txtt>
+              </Dialog.Content>
+            </Dialog>
 
             <Dialog visible={visible} onDismiss={handleRegister}>
               <Dialog.Title>สมัครใช้งานสำเร็จ</Dialog.Title>
@@ -231,6 +234,7 @@ const Register = ({navigation}: {navigation: any}) => {
           </Portal>
         </View>
       </View>
+      </KeyboardAwareScrollView>
     </PaperProvider>
   );
 };

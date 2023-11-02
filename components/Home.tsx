@@ -23,7 +23,7 @@ const Home = ({navigation}: {navigation: any}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const fetchAttractionsList = () => {
-    fetch('http://' + Ip.ip + ':89/api/products')
+    fetch('http://' + Ip.ip + '/api/products')
       .then(res => res.json())
       .then(result => {
         console.log(result);
@@ -33,7 +33,7 @@ const Home = ({navigation}: {navigation: any}) => {
   useEffect(fetchAttractionsList, []);
 
   const fetchAttractionsSearch = () => {
-    fetch('http://' + Ip.ip + ':89/api/products/' + searchQuery)
+    fetch('http://' + Ip.ip + '/api/products/' + searchQuery)
       .then(res => res.json())
       .then(result => {
         console.log(result);

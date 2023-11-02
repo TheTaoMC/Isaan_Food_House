@@ -69,7 +69,7 @@ const Register = ({navigation}: {navigation: any}) => {
 
     try {
       setIsloading(true);
-      const res = await fetch('http://' + Ip.ip + ':89/api/register', {
+      const res = await fetch('http://' + Ip.ip + '/api/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

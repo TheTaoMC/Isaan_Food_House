@@ -36,7 +36,7 @@ const Profile = ({navigation}: {navigation: any}) => {
   const fetchDataWithToken = async () => {
     console.log('Profile');
     const value = await AsyncStorage.getItem('@accessToken');
-    fetch('http://' + Ip.ip + ':89/api/authen', {
+    fetch('http://' + Ip.ip + '/api/authen', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization
@@ -74,7 +74,7 @@ const Profile = ({navigation}: {navigation: any}) => {
   const addexptime = async () => {
     console.log('AddExpTime');
     const value = await AsyncStorage.getItem('@accessToken');
-    const response = await fetch('http://' + Ip.ip + ':89/api/addtimetoken', {
+    const response = await fetch('http://' + Ip.ip + '/api/addtimetoken', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${value}`, // ส่ง token ใน header Authorization

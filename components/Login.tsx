@@ -42,8 +42,8 @@ const Login = ({navigation}: {navigation: any}) => {
   }; */
 
   const handleLogin = () => {
-    fetch('http://' + Ip.ip + ':89/api/login', {
-    //fetch('http://192.168.1.77:89/api/login', {
+    fetch('http://' + Ip.ip + '/api/login', {
+    //fetch('http://192.168.1.77/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

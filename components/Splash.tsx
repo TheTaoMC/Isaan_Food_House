@@ -36,7 +36,7 @@ const Splash = ({navigation}: {navigation: any}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={{color: 'white'}}>บ้านอาหารอีสานบ้านนามาอยู่กรุง</Text>
+          <Text style={{color: 'white'}}>ร้านอาหารอีสานบ้านนามาอยู่กรุง</Text>
         </View>
       </View>
     </Pressable>

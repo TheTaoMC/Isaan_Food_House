@@ -100,7 +100,6 @@ const Login = ({navigation}: {navigation: any}) => {
               onSubmitEditing={handleLogin}
               right={
                 <TextInput.Icon
-                  style={{borderColor: 'red', borderWidth: 1}}
                   icon="eye"
                   forceTextInputFocus={false}
                   onPress={() => setShowPassword(!showPassword)}
@@ -156,8 +155,6 @@ const styles = StyleSheet.create({
   textinput: {
     width: '70%',
     marginVertical: 5,
-    borderColor: 'red',
-    borderWidth: 1,
     paddingEnd: 50,
   },
 });

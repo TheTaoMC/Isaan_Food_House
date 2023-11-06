@@ -152,6 +152,12 @@ const Profile = ({navigation}: {navigation: any}) => {
             onPress={() => navigation.navigate('Testcodedemo')}>
             testCode
           </Button>
+          <Button
+            style={{margin: 10, width: '50%'}}
+            mode="contained"
+            onPress={() => navigation.navigate('Review')}>
+            Review
+          </Button>
         </View>
       )}
     </View>

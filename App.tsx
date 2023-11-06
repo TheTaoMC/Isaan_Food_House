@@ -9,6 +9,7 @@ import Login from './components/Login';
 import Profile from './components/Profile';
 import MyProfile from './components/MyProfile';
 import Register from './components/Register';
+import Review from './components/Review';
 import Testcodedemo from './components/Testcodedemo';
 
 const Stack = createNativeStackNavigator();
@@ -56,6 +57,11 @@ const App = () => {
           name="Testcodedemo"
           component={Testcodedemo}
           options={{title: 'Testcodedemo'}}
+        />
+        <Stack.Screen
+          name="Review"
+          component={Review}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

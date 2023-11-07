@@ -161,12 +161,6 @@ const Profile = ({navigation}: {navigation: any}) => {
           <Button
             style={{margin: 10, width: '50%'}}
             mode="contained"
-            onPress={() => navigation.navigate('MyComponent')}>
-            MyComponent
-          </Button>
-          <Button
-            style={{margin: 10, width: '50%'}}
-            mode="contained"
             onPress={() => navigation.navigate('Navtab')}>
             Navtab
           </Button>

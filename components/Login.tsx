@@ -9,8 +9,9 @@ import {
   PaperProvider,
   HelperText,
   Icon,
+  Text as Txtt,
 } from 'react-native-paper';
-import {Text as Txtt} from 'react-native-paper';
+
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -106,6 +107,20 @@ const Login = ({navigation}: {navigation: any}) => {
                 />
               }
             />
+            <Txtt
+              style={{
+                color: '#0095f6',
+                borderColor: 'red',
+                //borderWidth: 2,
+                paddingLeft: 20,
+                width: 300,
+              }}
+              onPress={() => navigation.navigate('Register')}
+              variant="bodyMedium">
+                
+              ลืมรหัสผ่าน
+            </Txtt>
+
             <View
               style={{
                 //flex: 2,
@@ -120,7 +135,7 @@ const Login = ({navigation}: {navigation: any}) => {
                 onPress={handleLogin}>
                 <Txtt
                   style={{fontWeight: 'bold', fontSize: 16, color: '#f5f6f5'}}>
-                  ตกลง
+                  เข้าสู่ระบบ
                 </Txtt>
               </Button>
               <Button

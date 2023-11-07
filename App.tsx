@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useIsFocused} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
@@ -19,13 +19,23 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const Navtab = () => {
-  console.log('Navtab component is rendered');
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Review" component={Review} />
-      <Tab.Screen name="Testcodedemo" component={Testcodedemo} />
-      <Tab.Screen name="Register" component={Register} />
+      <Tab.Screen
+        name="Review"
+        component={Review}
+        options={{title: 'Review'}}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{title: 'Profile'}}
+      />
+      <Tab.Screen
+        name="Register"
+        component={Register}
+        options={{title: 'Register'}}
+      />
     </Tab.Navigator>
   );
 };
@@ -47,6 +57,11 @@ const App = () => {
         <Stack.Screen
           name="Navtab"
           component={Navtab}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="MyComponent"
+          component={MyComponent}
           options={{headerShown: false}}
         />
         <Stack.Screen

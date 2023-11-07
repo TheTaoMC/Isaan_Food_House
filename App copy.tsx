@@ -2,8 +2,6 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
 import Splash from './components/Splash';
 import Home from './components/Home';
 import Detail from './components/Detail';
@@ -15,17 +13,14 @@ import Review from './components/Review';
 import Testcodedemo from './components/Testcodedemo';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
-const Navtab = () => {
-  console.log('Navtab component is rendered');
+const MainScreen = () => {
   return (
-    <Tab.Navigator>
-      <Tab.Screen name="Home" component={Home} />
-      <Tab.Screen name="Review" component={Review} />
-      <Tab.Screen name="Testcodedemo" component={Testcodedemo} />
-      <Tab.Screen name="Register" component={Register} />
-    </Tab.Navigator>
+    <Stack.Screen
+      name="Splash"
+      component={Splash}
+      options={{headerShown: false}}
+    />
   );
 };
 
@@ -33,19 +28,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Splash"
-          component={Splash}
-          options={{headerShown: false}}
-        />
+        <MainScreen />
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Navtab"
-          component={Navtab}
           options={{headerShown: false}}
         />
         <Stack.Screen

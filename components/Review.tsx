@@ -14,11 +14,11 @@ import {
   Button,
 } from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import React from 'react';
 
-const Tab = createBottomTabNavigator();
-const Review = ({navigation}: {navigation: any}) => {
+
+const Review = () => {
   return (
     <SafeAreaView style={{height: '100%'}}>
       <View style={{padding: 10}}>

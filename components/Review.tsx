@@ -14,9 +14,9 @@ import {
   Button,
 } from 'react-native-paper';
 import {NavigationContainer} from '@react-navigation/native';
+import MyComponent from './MyComponent';
 
 import React from 'react';
-
 
 const Review = () => {
   return (

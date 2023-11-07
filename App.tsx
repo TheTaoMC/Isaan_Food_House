@@ -13,6 +13,7 @@ import MyProfile from './components/MyProfile';
 import Register from './components/Register';
 import Review from './components/Review';
 import Testcodedemo from './components/Testcodedemo';
+import MyComponent from './components/MyComponent';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();

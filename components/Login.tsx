@@ -80,7 +80,7 @@ const Login = ({navigation}: {navigation: any}) => {
               style={{height: 300, width: 300, marginTop: 20}}
               source={require('../img/Logo.png')}
             />
-            <Txtt variant="displaySmall">เข้าสู่ระบบ v2</Txtt>
+            <Txtt variant="displaySmall">เข้าสู่ระบบ v3</Txtt>
             <TextInput
               style={styles.textinput}
               label="ชื่อผู้ใช้งาน"
@@ -117,7 +117,6 @@ const Login = ({navigation}: {navigation: any}) => {
               }}
               onPress={() => navigation.navigate('Register')}
               variant="bodyMedium">
-                
               ลืมรหัสผ่าน
             </Txtt>
 

@@ -14,6 +14,8 @@ import Register from './components/Register';
 import Review from './components/Review';
 import Testcodedemo from './components/Testcodedemo';
 import MyComponent from './components/MyComponent';
+import RegisterRestaurant from './components/RegisterRestaurant';
+import uploadimg from './components/uploadimg';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -44,6 +46,16 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+{/*         <Stack.Screen
+          name="uploadimg"
+          component={uploadimg}
+          options={{title: 'uploadimg'}}
+        /> */}
+        <Stack.Screen
+          name="RegisterRestaurant"
+          component={RegisterRestaurant}
+          options={{title: 'ลงทะเบียนร้านอาหาร'}}
+        />
         <Stack.Screen
           name="Splash"
           component={Splash}

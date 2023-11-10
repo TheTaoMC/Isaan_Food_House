@@ -24,8 +24,11 @@ const RegisterRestaurant = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirm = date => {
-    console.warn('A date has been picked: ', TimePicker);
+  const handleConfirm = time => {
+    console.warn(
+      'A date has been picked: ',
+      time.toLocaleString('en-US', {hourFormat: '24'}),
+    );
     hideDatePicker();
   };
 

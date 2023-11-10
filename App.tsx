@@ -1,5 +1,6 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
+import {Text as PaperText} from 'react-native-paper';
 import {NavigationContainer, useIsFocused} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -16,6 +17,8 @@ import Testcodedemo from './components/Testcodedemo';
 import MyComponent from './components/MyComponent';
 import RegisterRestaurant from './components/RegisterRestaurant';
 import uploadimg from './components/uploadimg';
+
+
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -46,7 +49,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-{/*         <Stack.Screen
+        {/*         <Stack.Screen
           name="uploadimg"
           component={uploadimg}
           options={{title: 'uploadimg'}}

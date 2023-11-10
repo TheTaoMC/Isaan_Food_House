@@ -6,10 +6,29 @@ import {
   Avatar,
   Button,
   TextInput,
+  Checkbox,
 } from 'react-native-paper';
-import React from 'react';
+import React, {useState} from 'react';
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import {TimePicker} from 'react-native-paper-dates';
 
 const RegisterRestaurant = () => {
+  const [checked, setChecked] = useState(false);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = date => {
+    console.warn('A date has been picked: ', TimePicker);
+    hideDatePicker();
+  };
+
   return (
     <SafeAreaView style={{height: '100%'}}>
       <ScrollView style={{padding: 10}}>
@@ -18,22 +37,16 @@ const RegisterRestaurant = () => {
             <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           </Card>
         </View>
-        <View
-          style={{
-            paddingTop: 10,
-            flex: 1,
-            flexDirection: 'column',
-          }}>
-          <View
-            style={{flexDirection: 'row', paddingBottom: 10, borderWidth: 1}}>
+        <View style={{paddingTop: 10}}>
+          <View style={{flexDirection: 'row', paddingBottom: 10}}>
             <Text style={styles.txt} variant="titleMedium">
               ชื่อร้าน :
             </Text>
             <TextInput
-              style={{width: '100%', maxWidth: '100%'}}
+              style={{flex: 1, height: 40}} // or adjust width as needed
               mode="outlined"
-              //value={text}
-              //onChangeText={text => setText(text)}
+              // value={text}
+              // onChangeText={text => setText(text)}
             />
           </View>
 
@@ -42,10 +55,35 @@ const RegisterRestaurant = () => {
               ราคา :
             </Text>
             <TextInput
-              style={{width: '50%'}}
+              style={{flex: 1, height: 40}} // or adjust width as needed
               mode="outlined"
-              //value={text}
-              //onChangeText={text => setText(text)}
+              // value={text}
+              // onChangeText={text => setText(text)}
+            />
+          </View>
+
+          <View style={{flexDirection: 'row', paddingTop: 10}}>
+            <Text style={{fontWeight: 'bold'}} variant="titleLarge">
+              เวลาเปิด - ปิด
+            </Text>
+          </View>
+          <View style={{flexDirection: 'row', paddingTop: 10}}>
+            <Text style={{fontWeight: 'bold'}} variant="titleLarge">
+              จ.
+            </Text>
+            <Checkbox
+              status={checked ? 'checked' : 'unchecked'}
+              onPress={() => {
+                setChecked(!checked);
+              }}
+            />
+
+            <Button onPress={showDatePicker}>ttt</Button>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="time"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
             />
           </View>
         </View>

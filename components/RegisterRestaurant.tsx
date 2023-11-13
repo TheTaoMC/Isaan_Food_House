@@ -7,7 +7,11 @@ import {
   Button,
   TextInput,
   Checkbox,
+  Icon,
+  IconButton,
+  MD3Colors,
 } from 'react-native-paper';
+
 import React, {useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import {TimePicker} from 'react-native-paper-dates';
@@ -70,23 +74,61 @@ const RegisterRestaurant = () => {
               เวลาเปิด - ปิด
             </Text>
           </View>
-          <View style={{flexDirection: 'row', paddingTop: 10}}>
-            <Text style={{fontWeight: 'bold'}} variant="titleLarge">
+          <View style={{flexDirection: 'row', paddingTop: 10, borderWidth: 1}}>
+            <Text
+              style={{fontWeight: 'bold', alignSelf: 'center'}}
+              variant="titleLarge">
               จ.
             </Text>
-            <Checkbox
+
+            <Checkbox.Item
+              label="ปิด"
               status={checked ? 'checked' : 'unchecked'}
               onPress={() => {
                 setChecked(!checked);
               }}
             />
 
-            <Button onPress={showDatePicker}>ttt</Button>
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="time"
               onConfirm={handleConfirm}
               onCancel={hideDatePicker}
+            />
+            <TextInput
+              style={{flex: 1, height: 40}}
+              mode="outlined"
+              // value={text}
+              // onChangeText={text => setText(text)}
+            />
+            <IconButton
+              icon="clock"
+              //iconColor={MD3Colors.error50}
+              size={20}
+              onPress={showDatePicker}
+            />
+            <Text
+              style={{fontWeight: 'bold', alignSelf: 'center'}}
+              variant="titleLarge">
+              ถึง
+            </Text>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="time"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+            />
+            <TextInput
+              style={{flex: 1, height: 40}}
+              mode="outlined"
+              // value={text}
+              // onChangeText={text => setText(text)}
+            />
+            <IconButton
+              icon="clock"
+              //iconColor={MD3Colors.error50}
+              size={20}
+              onPress={showDatePicker}
             />
           </View>
         </View>

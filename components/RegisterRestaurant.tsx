@@ -80,7 +80,6 @@ const RegisterRestaurant = () => {
               variant="titleLarge">
               จ.
             </Text>
-
             <Checkbox.Item
               label="ปิด"
               status={checked ? 'checked' : 'unchecked'}
@@ -88,7 +87,6 @@ const RegisterRestaurant = () => {
                 setChecked(!checked);
               }}
             />
-
             <DateTimePickerModal
               isVisible={isDatePickerVisible}
               mode="time"

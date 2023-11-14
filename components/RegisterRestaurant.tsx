@@ -23,19 +23,15 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import Timetotime from './componentsbrabra/Timetotime';
 
+
+
 const RegisterRestaurant = () => {
   //const [checked, setChecked] = useState();
   const [checkeds, setCheckeds] = useState([]);
   const txtday = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
   console.log(checkeds);
 
-  const updateCheckedState = (index, checked) => {
-    setCheckeds(prevCheckeds => {
-      const newCheckeds = {...prevCheckeds};
-      newCheckeds[index] = checked;
-      return newCheckeds;
-    });
-  };
+  
   return (
     <SafeAreaView style={{height: '100%'}}>
       <ScrollView style={{padding: 10}}>
@@ -78,7 +74,18 @@ const RegisterRestaurant = () => {
           {txtday.map((day, index) => (
             <Timetotime
               txtday={day}
-              onCheckedChange={checked => updateCheckedState(index, checked)}
+              onCheckedChange={checked => {
+                // ไม่ต้องสร้างตัวแปร checked อีก
+                setCheckeds(prevCheckeds => {
+                  // คัดลอก state เดิม
+                  const newCheckeds = {...prevCheckeds};
+
+                  // กำหนดค่า checked ให้กับ index ที่ระบุ
+                  newCheckeds[index] = checked;
+
+                  return newCheckeds;
+                });
+              }}
               key={index}
             />
           ))}

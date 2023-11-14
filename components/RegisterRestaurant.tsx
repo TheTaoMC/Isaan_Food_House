@@ -23,15 +23,12 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import Timetotime from './componentsbrabra/Timetotime';
 
-
-
 const RegisterRestaurant = () => {
   //const [checked, setChecked] = useState();
   const [checkeds, setCheckeds] = useState([]);
   const txtday = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
   console.log(checkeds);
 
-  
   return (
     <SafeAreaView style={{height: '100%'}}>
       <ScrollView style={{padding: 10}}>

@@ -29,6 +29,14 @@ const RegisterRestaurant = () => {
   const txtday = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
   console.log(checkeds);
 
+  const updateCheckedState = (index, checked) => {
+    setCheckeds(prevCheckeds => {
+      const newCheckeds = {...prevCheckeds};
+      newCheckeds[index] = checked;
+      return newCheckeds;
+    });
+  };
+
   return (
     <SafeAreaView style={{height: '100%'}}>
       <ScrollView style={{padding: 10}}>
@@ -68,7 +76,7 @@ const RegisterRestaurant = () => {
             </Text>
           </View>
 
-          {txtday.map((day, index) => (
+          {/*           {txtday.map((day, index) => (
             <Timetotime
               txtday={day}
               onCheckedChange={checked => {
@@ -85,7 +93,15 @@ const RegisterRestaurant = () => {
               }}
               key={index}
             />
-          ))}
+          ))} */}
+          <Timetotime
+            txtday={txtday[0]}
+            onCheckedChange={checked => updateCheckedState(0, checked)}
+          />
+          <Timetotime
+            txtday={txtday[1]}
+            onCheckedChange={checked => updateCheckedState(1, checked)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

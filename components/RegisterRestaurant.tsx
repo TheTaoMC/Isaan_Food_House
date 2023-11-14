@@ -102,6 +102,14 @@ const RegisterRestaurant = () => {
             txtday={txtday[1]}
             onCheckedChange={checked => updateCheckedState(1, checked)}
           />
+          <Timetotime
+            txtday={txtday[2]}
+            onCheckedChange={checked => updateCheckedState(2, checked)}
+          />
+          <Timetotime
+            txtday={txtday[3]}
+            onCheckedChange={checked => updateCheckedState(3, checked)}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>

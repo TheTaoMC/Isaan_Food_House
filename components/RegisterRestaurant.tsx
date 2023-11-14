@@ -26,16 +26,10 @@ import Timetotime from './componentsbrabra/Timetotime';
 const RegisterRestaurant = () => {
   //const [checked, setChecked] = useState();
   const [checkeds, setCheckeds] = useState([]);
+  const [froms, setFroms] = useState([]);
+  const [tos, setTos] = useState([]);
   const txtday = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
   console.log(checkeds);
-
-  const updateCheckedState = (index, checked) => {
-    setCheckeds(prevCheckeds => {
-      const newCheckeds = {...prevCheckeds};
-      newCheckeds[index] = checked;
-      return newCheckeds;
-    });
-  };
 
   return (
     <SafeAreaView style={{height: '100%'}}>
@@ -45,7 +39,7 @@ const RegisterRestaurant = () => {
             <Card.Cover source={{uri: 'https://picsum.photos/700'}} />
           </Card>
         </View>
-        <View style={{paddingTop: 10}}>
+        <View style={{paddingTop: 10, paddingBottom: 20}}>
           <View style={{flexDirection: 'row', paddingBottom: 10}}>
             <Text style={styles.txt} variant="titleMedium">
               ชื่อร้าน :
@@ -76,7 +70,7 @@ const RegisterRestaurant = () => {
             </Text>
           </View>
 
-          {/*           {txtday.map((day, index) => (
+          {txtday.map((day, index) => (
             <Timetotime
               txtday={day}
               onCheckedChange={checked => {
@@ -91,25 +85,39 @@ const RegisterRestaurant = () => {
                   return newCheckeds;
                 });
               }}
+              onfromChange={from => {
+                // กำหนดค่า onfrom
+                setFroms(prevFroms => {
+                  // คัดลอก state เดิม
+                  const newFroms = {...prevFroms};
+
+                  // กำหนดค่า onfrom ให้กับ index ที่ระบุ
+                  newFroms[index] = from;
+
+                  return newFroms;
+                });
+              }}
+              ontoChange={to => {
+                // กำหนดค่า onto
+                setTos(prevTos => {
+                  // คัดลอก state เดิม
+                  const newTos = {...prevTos};
+
+                  // กำหนดค่า onto ให้กับ index ที่ระบุ
+                  newTos[index] = to;
+
+                  return newTos;
+                });
+              }}
               key={index}
             />
-          ))} */}
-          <Timetotime
-            txtday={txtday[0]}
-            onCheckedChange={checked => updateCheckedState(0, checked)}
-          />
-          <Timetotime
-            txtday={txtday[1]}
-            onCheckedChange={checked => updateCheckedState(1, checked)}
-          />
-          <Timetotime
-            txtday={txtday[2]}
-            onCheckedChange={checked => updateCheckedState(2, checked)}
-          />
-          <Timetotime
-            txtday={txtday[3]}
-            onCheckedChange={checked => updateCheckedState(3, checked)}
-          />
+          ))}
+          <Button
+            style={{width: 100, alignSelf: 'flex-end'}}
+            mode="contained"
+            onPress={() => console.log('Pressed', checkeds, froms, tos)}>
+            ส่งข้อมูล
+          </Button>
         </View>
       </ScrollView>
     </SafeAreaView>

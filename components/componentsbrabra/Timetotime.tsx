@@ -16,19 +16,33 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
-const Timetotime = ({txtday, onCheckedChange}) => {
+const Timetotime = ({txtday, onCheckedChange, onfromChange, ontoChange}) => {
   const [checked, setChecked] = useState(false);
-  console.log('ttt' + checked);
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
+  console.log('ส่งข้อมูล', checked, from, to);
 
   return (
     <View style={{flexDirection: 'row', paddingTop: 10}}>
       <Text
-        style={{fontWeight: 'bold', alignSelf: 'center'}}
+        style={{
+          fontWeight: 'bold',
+          alignSelf: 'center',
+          width: 40,
+          borderWidth: 0,
+        }}
         variant="titleLarge">
         {txtday}
       </Text>
       <Checkbox.Item
+        style={{
+          borderWidth: 0,
+          paddingVertical: 5,
+          paddingHorizontal: 1,
+          width: 60,
+        }}
         label="ปิด"
+        position={'leading'}
         status={checked ? 'checked' : 'unchecked'}
         onPress={() => {
           const newChecked = !checked;
@@ -41,8 +55,8 @@ const Timetotime = ({txtday, onCheckedChange}) => {
         disabled={checked ? true : false}
         style={{flex: 1, height: 40, alignSelf: 'center'}}
         mode="outlined"
-        // value={text}
-        // onChangeText={text => setText(text)}
+        value={from}
+        onChangeText={text => setFrom(text)}
       />
       <IconButton
         disabled={checked ? true : false}
@@ -61,8 +75,8 @@ const Timetotime = ({txtday, onCheckedChange}) => {
         disabled={checked ? true : false}
         style={{flex: 1, height: 40, alignSelf: 'center'}}
         mode="outlined"
-        // value={text}
-        // onChangeText={text => setText(text)}
+        value={to}
+        onChangeText={text => setTo(text)}
       />
       <IconButton
         disabled={checked ? true : false}

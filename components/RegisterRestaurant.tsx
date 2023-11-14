@@ -1,4 +1,10 @@
-import {StyleSheet, View, SafeAreaView, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import {
   Searchbar,
   Text,
@@ -11,31 +17,25 @@ import {
   IconButton,
   MD3Colors,
 } from 'react-native-paper';
-
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {TimePicker} from 'react-native-paper-dates';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import moment from 'moment';
+import Timetotime from './componentsbrabra/Timetotime';
 
 const RegisterRestaurant = () => {
-  const [checked, setChecked] = useState(false);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  //const [checked, setChecked] = useState();
+  const [checkeds, setCheckeds] = useState([]);
+  const txtday = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
+  console.log(checkeds);
 
-  const showDatePicker = () => {
-    setDatePickerVisibility(true);
+  const updateCheckedState = (index, checked) => {
+    setCheckeds(prevCheckeds => {
+      const newCheckeds = {...prevCheckeds};
+      newCheckeds[index] = checked;
+      return newCheckeds;
+    });
   };
-
-  const hideDatePicker = () => {
-    setDatePickerVisibility(false);
-  };
-
-  const handleConfirm = time => {
-    console.warn(
-      'A date has been picked: ',
-      time.toLocaleString('en-US', {hourFormat: '24'}),
-    );
-    hideDatePicker();
-  };
-
   return (
     <SafeAreaView style={{height: '100%'}}>
       <ScrollView style={{padding: 10}}>
@@ -74,61 +74,14 @@ const RegisterRestaurant = () => {
               เวลาเปิด - ปิด
             </Text>
           </View>
-          <View style={{flexDirection: 'row', paddingTop: 10, borderWidth: 1}}>
-            <Text
-              style={{fontWeight: 'bold', alignSelf: 'center'}}
-              variant="titleLarge">
-              จ.
-            </Text>
-            <Checkbox.Item
-              label="ปิด"
-              status={checked ? 'checked' : 'unchecked'}
-              onPress={() => {
-                setChecked(!checked);
-              }}
+
+          {txtday.map((day, index) => (
+            <Timetotime
+              txtday={day}
+              onCheckedChange={checked => updateCheckedState(index, checked)}
+              key={index}
             />
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="time"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
-            <TextInput
-              style={{flex: 1, height: 40}}
-              mode="outlined"
-              // value={text}
-              // onChangeText={text => setText(text)}
-            />
-            <IconButton
-              icon="clock"
-              //iconColor={MD3Colors.error50}
-              size={20}
-              onPress={showDatePicker}
-            />
-            <Text
-              style={{fontWeight: 'bold', alignSelf: 'center'}}
-              variant="titleLarge">
-              ถึง
-            </Text>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="time"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-            />
-            <TextInput
-              style={{flex: 1, height: 40}}
-              mode="outlined"
-              // value={text}
-              // onChangeText={text => setText(text)}
-            />
-            <IconButton
-              icon="clock"
-              //iconColor={MD3Colors.error50}
-              size={20}
-              onPress={showDatePicker}
-            />
-          </View>
+          ))}
         </View>
       </ScrollView>
     </SafeAreaView>

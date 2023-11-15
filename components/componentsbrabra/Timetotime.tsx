@@ -16,7 +16,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
-const Timetotime = ({txtday, onCheckedChange, onfromChange, ontoChange}) => {
+const Timetotime = ({txtday, onCheckedChange, onFromChange, onToChange}) => {
   const [checked, setChecked] = useState(false);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -37,6 +37,7 @@ const Timetotime = ({txtday, onCheckedChange, onfromChange, ontoChange}) => {
       <Checkbox.Item
         style={{
           borderWidth: 0,
+          marginRight: 1,
           paddingVertical: 5,
           paddingHorizontal: 1,
           width: 60,
@@ -53,12 +54,16 @@ const Timetotime = ({txtday, onCheckedChange, onfromChange, ontoChange}) => {
 
       <TextInput
         disabled={checked ? true : false}
-        style={{flex: 1, height: 40, alignSelf: 'center'}}
+        style={{flex: 1, height: 40, alignSelf: 'center', borderWidth: 0}}
         mode="outlined"
         value={from}
-        onChangeText={text => setFrom(text)}
+        onChangeText={text => {
+          setFrom(text);
+          onFromChange(text);
+        }}
       />
       <IconButton
+        style={{borderWidth: 0, margin: 0}}
         disabled={checked ? true : false}
         icon="clock"
         //iconColor={MD3Colors.error50}
@@ -66,7 +71,11 @@ const Timetotime = ({txtday, onCheckedChange, onfromChange, ontoChange}) => {
         //onPress={showtimePicker}
       />
       <Text
-        style={{fontWeight: 'bold', alignSelf: 'center', marginRight: 10}}
+        style={{
+          fontWeight: 'bold',
+          alignSelf: 'center',
+          marginRight: 10,
+        }}
         variant="titleLarge">
         ถึง
       </Text>
@@ -76,9 +85,13 @@ const Timetotime = ({txtday, onCheckedChange, onfromChange, ontoChange}) => {
         style={{flex: 1, height: 40, alignSelf: 'center'}}
         mode="outlined"
         value={to}
-        onChangeText={text => setTo(text)}
+        onChangeText={text => {
+          setTo(text);
+          onToChange(text);
+        }}
       />
       <IconButton
+        style={{borderWidth: 0, margin: 0}}
         disabled={checked ? true : false}
         icon="clock"
         //iconColor={MD3Colors.error50}

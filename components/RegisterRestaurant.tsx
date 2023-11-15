@@ -25,11 +25,10 @@ import Timetotime from './componentsbrabra/Timetotime';
 
 const RegisterRestaurant = () => {
   //const [checked, setChecked] = useState();
-  const [checkeds, setCheckeds] = useState([]);
-  const [froms, setFroms] = useState([]);
-  const [tos, setTos] = useState([]);
+  const [checkeds, setCheckeds] = useState(new Array(6).fill(false));
+  const [froms, setFroms] = useState(new Array(6).fill(''));
+  const [tos, setTos] = useState(new Array(6).fill(''));
   const txtday = ['จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.', 'อา.'];
-  console.log(checkeds);
 
   return (
     <SafeAreaView style={{height: '100%'}}>
@@ -85,25 +84,25 @@ const RegisterRestaurant = () => {
                   return newCheckeds;
                 });
               }}
-              onfromChange={from => {
-                // กำหนดค่า onfrom
+              onFromChange={from => {
+                // ไม่ต้องสร้างตัวแปร checked อีก
                 setFroms(prevFroms => {
                   // คัดลอก state เดิม
                   const newFroms = {...prevFroms};
 
-                  // กำหนดค่า onfrom ให้กับ index ที่ระบุ
+                  // กำหนดค่า checked ให้กับ index ที่ระบุ
                   newFroms[index] = from;
 
                   return newFroms;
                 });
               }}
-              ontoChange={to => {
-                // กำหนดค่า onto
+              onToChange={to => {
+                // ไม่ต้องสร้างตัวแปร checked อีก
                 setTos(prevTos => {
                   // คัดลอก state เดิม
                   const newTos = {...prevTos};
 
-                  // กำหนดค่า onto ให้กับ index ที่ระบุ
+                  // กำหนดค่า checked ให้กับ index ที่ระบุ
                   newTos[index] = to;
 
                   return newTos;
@@ -115,7 +114,11 @@ const RegisterRestaurant = () => {
           <Button
             style={{width: 100, alignSelf: 'flex-end'}}
             mode="contained"
-            onPress={() => console.log('Pressed', checkeds, froms, tos)}>
+            onPress={() => {
+              console.log('Pressed checkeds ', checkeds);
+              console.log('Pressed froms ', froms);
+              console.log('Pressed tos ', tos);
+            }}>
             ส่งข้อมูล
           </Button>
         </View>
